@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_puchar.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lnkambul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/26 15:12:57 by lnkambul          #+#    #+#             */
-/*   Updated: 2019/06/26 15:29:38 by lnkambul         ###   ########.fr       */
+/*   Created: 2019/05/22 11:54:02 by lnkambul          #+#    #+#             */
+/*   Updated: 2019/06/19 12:55:36 by lnkambul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-#define GET_NEXT_LINE_H
-#define BUFF 32
 #include "libft.h"
 
-int		get_next_line(const int fd, char **line);
-#endif
+void	ft_putchar(char c)
+{
+	write(1, &c, 1);
+}

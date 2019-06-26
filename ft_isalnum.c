@@ -1,19 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lnkambul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/26 15:12:57 by lnkambul          #+#    #+#             */
-/*   Updated: 2019/06/26 15:29:38 by lnkambul         ###   ########.fr       */
+/*   Created: 2019/05/23 11:35:56 by lnkambul          #+#    #+#             */
+/*   Updated: 2019/05/23 11:41:06 by lnkambul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-#define GET_NEXT_LINE_H
-#define BUFF 32
 #include "libft.h"
 
-int		get_next_line(const int fd, char **line);
-#endif
+int		ft_isalnum(int c)
+{
+	if (c > 47 && c < 58)
+		return (1);
+	else if ((c > 64 && c < 91) || (c > 96 && c < 123))
+		return (1);
+	else
+		return (0);
+}

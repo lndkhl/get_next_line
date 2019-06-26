@@ -1,19 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_putnbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lnkambul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/26 15:12:57 by lnkambul          #+#    #+#             */
-/*   Updated: 2019/06/26 15:29:38 by lnkambul         ###   ########.fr       */
+/*   Created: 2019/06/09 15:36:57 by lnkambul          #+#    #+#             */
+/*   Updated: 2019/06/12 16:28:12 by lnkambul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-#define GET_NEXT_LINE_H
-#define BUFF 32
 #include "libft.h"
 
-int		get_next_line(const int fd, char **line);
-#endif
+void			ft_putnbr(int n)
+{
+	unsigned int a;
+
+	a = (unsigned int)n;
+	if (n < 0)
+	{
+		ft_putchar('-');
+		a *= -1;
+	}
+	if (a > 9)
+		ft_putnbr(a / 10);
+	ft_putchar((char)(a % 10 + '0'));
+}

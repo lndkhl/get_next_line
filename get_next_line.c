@@ -6,13 +6,15 @@
 /*   By: lnkambul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 15:07:28 by lnkambul          #+#    #+#             */
-/*   Updated: 2019/06/26 15:15:15 by lnkambul         ###   ########.fr       */
+/*   Updated: 2019/06/26 17:16:55 by lnkambul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int			get_next_line(const int fd, char **line)
-{
+static char		*bank;
 
+int				get_next_line(const int fd, char **line)
+{
+	
 }

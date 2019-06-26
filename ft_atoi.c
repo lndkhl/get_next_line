@@ -1,19 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lnkambul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/26 15:12:57 by lnkambul          #+#    #+#             */
-/*   Updated: 2019/06/26 15:29:38 by lnkambul         ###   ########.fr       */
+/*   Created: 2019/05/22 15:51:34 by lnkambul          #+#    #+#             */
+/*   Updated: 2019/06/19 14:55:22 by lnkambul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-#define GET_NEXT_LINE_H
-#define BUFF 32
 #include "libft.h"
 
-int		get_next_line(const int fd, char **line);
-#endif
+int				ft_atoi(const char *s)
+{
+	int			n;
+	long long	r;
+	char		*p;
+
+	n = 1;
+	r = 0;
+	p = (char *)s;
+	p = ft_whitespace_skipper(p);
+	if (*p == '-' || *p == '+')
+	{
+		if (*p == '-')
+			n = n * -1;
+		p++;
+	}
+	while (ft_isdigit(*p))
+	{
+		r = (r * 10) + ((*p) - 48);
+		p++;
+	}
+	return (r * n);
+}
