@@ -6,28 +6,26 @@
 /*   By: lnkambul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 15:07:28 by lnkambul          #+#    #+#             */
-/*   Updated: 2019/07/01 11:21:09 by lnkambul         ###   ########.fr       */
+/*   Updated: 2019/07/01 18:52:45 by lnkambul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-
-static t_list	**buffer;
-
-static void		ft_del(void *c, size_t cs)
-{
-		ft_memdel(c);
-}
+#include " get_next_line.h "
+#include <fcntl.h>
+#include <stdio.h>
 
 int				get_next_line(const int fd, char **line)
 {
-	t_list		*node;
-	char		*bank;
-	char		*temp;
-	size_t		i;
+	static t_lines	lines;
+	t_lines			*node;
+
+	char			*bank;
+	char			*temp;
+
+	if (fd < 0 || !line || read(fd, NULL, 0) == -1)
+		return (-1);
 
 	bank = ft_strnew(BUFF_SIZE);
-	i = 1;
 	while (read(fd, bank, BUFF_SIZE * i) > 0)
 	{
 		if(!ft_strchr(bank, '\n'))
@@ -54,7 +52,7 @@ int				get_next_line(const int fd, char **line)
 					ft_lstadd(buffer, node);
 			}
 			*line = (*buffer)->content;
-			ft_lstdelone(buffer, ft_del((*buffer), (*buffer)->content_size));
+			ft_lstdelone(buffer, ft_strdel(buffer), (*buffer)->content);
 		}
 	}
 	return (1);
@@ -62,5 +60,19 @@ int				get_next_line(const int fd, char **line)
 
 int			main()
 {
+	char *line = NULL;
+	int fd;
+	int output;
+
+	fd = open( "", O_RDONLY);
+	output = 1;
+
+	while (output > 0)
+	{
+		output = get_next_line(fd, &line);
+		printf("[%d] line: %s\n", output, line);
+		ft_strdel(&line);
+		line = NULL;
+	}
 	return (0);
 }

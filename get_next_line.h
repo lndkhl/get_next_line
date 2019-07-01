@@ -6,7 +6,7 @@
 /*   By: lnkambul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 15:12:57 by lnkambul          #+#    #+#             */
-/*   Updated: 2019/06/27 12:51:52 by lnkambul         ###   ########.fr       */
+/*   Updated: 2019/07/01 18:52:54 by lnkambul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,14 @@
 #define BUFF_SIZE 32
 #include "libft.h"
 
-int		get_next_line(const int fd, char **line);
+typedef struct		s_lines
+{
+	int				fd;
+	char			*buffer;
+	char			*line;
+	struct s_lines	*next;
+}					t_lines;
+
+int					get_next_line(const int fd, char **line);
+
 #endif
