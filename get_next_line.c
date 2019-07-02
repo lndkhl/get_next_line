@@ -6,7 +6,7 @@
 /*   By: lnkambul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 15:07:28 by lnkambul          #+#    #+#             */
-/*   Updated: 2019/07/01 18:52:45 by lnkambul         ###   ########.fr       */
+/*   Updated: 2019/07/01 18:55:29 by lnkambul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ int				get_next_line(const int fd, char **line)
 
 	if (fd < 0 || !line || read(fd, NULL, 0) == -1)
 		return (-1);
+
+	// _____________________________________________________
+	// _____________________________UNMODIFIED______________
 
 	bank = ft_strnew(BUFF_SIZE);
 	while (read(fd, bank, BUFF_SIZE * i) > 0)
@@ -55,6 +58,8 @@ int				get_next_line(const int fd, char **line)
 			ft_lstdelone(buffer, ft_strdel(buffer), (*buffer)->content);
 		}
 	}
+	// _____________________________________________________
+	// _____________________________UNMODIFIED______________
 	return (1);
 }
 
