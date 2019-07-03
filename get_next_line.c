@@ -6,72 +6,53 @@
 /*   By: lnkambul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 15:07:28 by lnkambul          #+#    #+#             */
-/*   Updated: 2019/07/03 15:20:09 by lnkambul         ###   ########.fr       */
+/*   Updated: 2019/07/03 16:56:45 by lnkambul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include " get_next_line.h "
+#include "get_next_line.h"
 #include <fcntl.h>
-/*
-t_lines			*ft_lnsnew(int fd, char *l, char *b)
-{
-	t_lines		newline;
 
-	newline = NULL;
-	if (!(newline = (t_lines *)malloc(sizeof(t_lines))))
-		return (NULL);
-	newline->line = (l) ? ft_strdup(l) : NULL;
-	newline->buffer = (b) ? ft_strdup(b) : NULL;
-	newline->next = NULL;
-	return (newline);
-}
-
-t_lines			*ft_lnsadd(int fd, t_lines **aln, t_lines *nl)
+int					get_next_line(const int fd, char **line)
 {
-	nl->next = (*aln);
-	(*aln) = nl;
-}
-
-t_lines			*ft_lnsdelone(int fd, t_lines **aln)
-{
-	free((*aln)->buffer);
-	(*aln)->buffer = NULL;
-	fre((*aln)->line);
-	(*aln)->line = NULL;
-	ft_memdel((void **)aln);
-}
-*/
-int				get_next_line(const int fd, char **line)
-{
-	//static t_lines	**lines;
 	static char		**arr;
-	//t_lines		*node;
 	char			*bank;
 	char			*temp;
-	/*
-	if (!(lines = (t_lines **)malloc(sizeof(t_lines) * 1024)))
-		return (-1);
-	*/
+	size_t			i;
+	
 	if (!(arr = (char **)malloc(sizeof(char *) * 1024)))
 		return (-1);
+	i = 0;
+	while (i < 1024)
+		arr[i++] = NULL;
 	if (fd < 0 || !line || read(fd, NULL, 0) == -1)
 		return (-1);
 	bank = ft_strnew(BUFF_SIZE);
-	while (read(fd, bank, BUFF_SIZE) > 0)
+	while (read(fd, bank, BUFF_SIZE))
 	{
 		if(!(ft_strchr(bank, '\n')))
 		{
-			temp = (ft_strlen(temp)) ? ft_strjoin(temp, bank) : ft_strdup(bank);
+			temp = (arr[fd]) ? ft_strjoin(arr[fd], bank) : ft_strdup(bank);
 			ft_strdel(&bank);
-			free(bank);
+			bank = NULL;
 			bank = ft_strnew(BUFF_SIZE);
+			arr[fd] = temp;
+			ft_strdel(&temp);
+			temp = NULL;
 		}
 		else
 		{
-			*line = ft_strsub(bank, 0, size_t(ft_strchr(bank, '\n') - bank));
-			temp = ft_strchr(bank, '\n') + 1;
-			//node = ft_lnsnew(fd, temp, bank);
-			arr[fd] = ft_strdup(temp);
+			if (temp)
+			{
+				ft_strdel(&temp);
+				temp = NULL;
+			}
+			while (bank[i] != *(ft_strchr(bank, '\n')))
+				i++;
+			*line = ft_strsub(bank, 0, i);
+			arr[fd] = ft_strchr(bank, '\n');
+			ft_strdel(&bank);
+			bank = NULL;
 			return (0);
 		}
 	}
@@ -82,11 +63,11 @@ int				get_next_line(const int fd, char **line)
 
 int			main()
 {
-	char *line = NULL;
-	int fd;
-	int output;
+	char	*line = NULL;
+	int 	fd;
+	int 	output;
 
-	fd = open( "", O_RDONLY);
+	fd = open( "makefile", O_RDONLY);
 	output = 1;
 	while (output > 0)
 	{
