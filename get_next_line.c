@@ -6,7 +6,7 @@
 /*   By: lnkambul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 15:07:28 by lnkambul          #+#    #+#             */
-/*   Updated: 2019/07/03 16:56:45 by lnkambul         ###   ########.fr       */
+/*   Updated: 2019/07/03 17:36:01 by lnkambul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int					get_next_line(const int fd, char **line)
 	char			*bank;
 	char			*temp;
 	size_t			i;
-	
+
 	if (!(arr = (char **)malloc(sizeof(char *) * 1024)))
 		return (-1);
 	i = 0;
@@ -28,7 +28,7 @@ int					get_next_line(const int fd, char **line)
 	if (fd < 0 || !line || read(fd, NULL, 0) == -1)
 		return (-1);
 	bank = ft_strnew(BUFF_SIZE);
-	while (read(fd, bank, BUFF_SIZE))
+	while (read(fd, bank, BUFF_SIZE) > 0)
 	{
 		if(!(ft_strchr(bank, '\n')))
 		{
@@ -49,11 +49,11 @@ int					get_next_line(const int fd, char **line)
 			}
 			while (bank[i] != *(ft_strchr(bank, '\n')))
 				i++;
-			*line = ft_strsub(bank, 0, i);
+			*line = (arr[fd]) ? ft_strjoin(arr[fd], ft_strsub(bank, 0, i)) : ft_strsub(bank, 0, i);
 			arr[fd] = ft_strchr(bank, '\n');
 			ft_strdel(&bank);
 			bank = NULL;
-			return (0);
+			return (1);
 		}
 	}
 	return (0);
@@ -72,7 +72,7 @@ int			main()
 	while (output > 0)
 	{
 		output = get_next_line(fd, &line);
-		printf("[%d] line: %s\n", output, line);
+		printf("[%d] line: %s", output, line);
 		ft_strdel(&line);
 		line = NULL;
 	}
