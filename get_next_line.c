@@ -5,57 +5,52 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lnkambul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/26 15:07:28 by lnkambul          #+#    #+#             */
-/*   Updated: 2019/07/03 17:36:01 by lnkambul         ###   ########.fr       */
+/*   Created: 2019/07/05 16:20:06 by lnkambul          #+#    #+#             */
+/*   Updated: 2019/07/06 00:08:28 by lnkambul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <fcntl.h>
 
+static int			allocate(const int fd, char **line, char **arr, char *temp)
+{
+	*line = ft_strsub(arr[fd], 0, (size_t)(ft_strchr(arr[fd], '\n')\
+						- arr[fd]));
+	temp = ft_strsub(ft_strchr(arr[fd], '\n') + 1, 0,\
+						ft_strlen(arr[fd]) - ft_strlen(*line));
+	ft_strdel(&arr[fd]);
+	arr[fd] = ft_strdup(temp);
+	ft_strdel(&temp);
+}
 int					get_next_line(const int fd, char **line)
 {
 	static char		**arr;
-	char			*bank;
 	char			*temp;
-	size_t			i;
 
-	if (!(arr = (char **)malloc(sizeof(char *) * 1024)))
-		return (-1);
-	i = 0;
-	while (i < 1024)
-		arr[i++] = NULL;
 	if (fd < 0 || !line || read(fd, NULL, 0) == -1)
 		return (-1);
-	bank = ft_strnew(BUFF_SIZE);
-	while (read(fd, bank, BUFF_SIZE) > 0)
+	if (!(arr))
+		if (!(arr = (char **)malloc(sizeof(char *) * 1024)))
+			return (-1);
+	if (ft_strchr(arr[fd], '\n'))
+		return (allocate(fd, line, arr));
+	temp = ft_strnew(BUFF_SIZE);
+	while (read(fd, temp, BUFF_SIZE))
 	{
-		if(!(ft_strchr(bank, '\n')))
+		if (ft_strchr(temp, '\n'))
 		{
-			temp = (arr[fd]) ? ft_strjoin(arr[fd], bank) : ft_strdup(bank);
-			ft_strdel(&bank);
-			bank = NULL;
-			bank = ft_strnew(BUFF_SIZE);
-			arr[fd] = temp;
+			*line = ft_strsub(temp, 0, (size_t)(ft_strchr(temp, '\n')\
+						- temp));
+			arr[fd] = ft_strsub(ft_strchr(temp, '\n') + 1, 0, ft_strlen(temp) - ft_strlen(*line));
 			ft_strdel(&temp);
-			temp = NULL;
-		}
-		else
-		{
-			if (temp)
-			{
-				ft_strdel(&temp);
-				temp = NULL;
-			}
-			while (bank[i] != *(ft_strchr(bank, '\n')))
-				i++;
-			*line = (arr[fd]) ? ft_strjoin(arr[fd], ft_strsub(bank, 0, i)) : ft_strsub(bank, 0, i);
-			arr[fd] = ft_strchr(bank, '\n');
-			ft_strdel(&bank);
-			bank = NULL;
 			return (1);
 		}
+		arr[fd] = (arr[fd]) ? ft_strjoin(arr[fd], temp) : ft_strdup(temp);
+		ft_strdel(&temp);
 	}
+	*line = (arr[fd]) ? arr[fd] : *line;
+	if (arr[fd])
+		ft_strdel(&arr[fd]);
 	return (0);
 }
 
@@ -63,18 +58,15 @@ int					get_next_line(const int fd, char **line)
 
 int			main()
 {
-	char	*line = NULL;
-	int 	fd;
-	int 	output;
+	char	*line;
+	int		fd;
 
-	fd = open( "makefile", O_RDONLY);
-	output = 1;
-	while (output > 0)
+	line = NULL;
+	fd = open ("makefile", O_RDONLY);
+	while (get_next_line(fd, &line))
 	{
-		output = get_next_line(fd, &line);
-		printf("[%d] line: %s", output, line);
+		printf("%s\n", line);
 		ft_strdel(&line);
-		line = NULL;
 	}
 	return (0);
 }
