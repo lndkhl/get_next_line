@@ -6,16 +6,11 @@
 /*   By: lnkambul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 16:20:06 by lnkambul          #+#    #+#             */
-/*   Updated: 2019/07/06 20:37:07 by lnkambul         ###   ########.fr       */
+/*   Updated: 2019/07/06 21:07:01 by lnkambul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-void	t(void)
-{
-	ft_putendl("1");
-}
 
 int					get_next_line(const int fd, char **line)
 {	
@@ -60,20 +55,3 @@ int					get_next_line(const int fd, char **line)
 		ft_strdel(&arr[fd]);
 	return (0);
 }
-/*
-#include <stdio.h>
-
-int			main()
-{
-	char	*line;
-	int		fd;
-
-	line = NULL;
-	fd = open ("makefile", O_RDONLY);
-	while (get_next_line(fd, &line))
-	{
-		printf("%s\n", line);
-		ft_strdel(&line);
-	}
-	return (0);
-}*/
