@@ -6,54 +6,68 @@
 /*   By: lnkambul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 16:20:06 by lnkambul          #+#    #+#             */
-/*   Updated: 2019/07/06 00:08:28 by lnkambul         ###   ########.fr       */
+/*   Updated: 2019/07/06 06:33:46 by lnkambul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static int			allocate(const int fd, char **line, char **arr, char *temp)
+void	t(void)
 {
-	*line = ft_strsub(arr[fd], 0, (size_t)(ft_strchr(arr[fd], '\n')\
-						- arr[fd]));
-	temp = ft_strsub(ft_strchr(arr[fd], '\n') + 1, 0,\
-						ft_strlen(arr[fd]) - ft_strlen(*line));
-	ft_strdel(&arr[fd]);
-	arr[fd] = ft_strdup(temp);
-	ft_strdel(&temp);
+	ft_putendl("1");
 }
+
 int					get_next_line(const int fd, char **line)
 {
-	static char		**arr;
+	static char		*arr[1024];
 	char			*temp;
 
 	if (fd < 0 || !line || read(fd, NULL, 0) == -1)
 		return (-1);
-	if (!(arr))
-		if (!(arr = (char **)malloc(sizeof(char *) * 1024)))
+	t();
+	if (!((arr[fd]) && !(arr[fd] = ft_strnew(BUFF_SIZE))))
 			return (-1);
+	t();
 	if (ft_strchr(arr[fd], '\n'))
-		return (allocate(fd, line, arr));
+	{
+		t();
+		*line = ft_strsub(arr[fd], 0, (size_t)(ft_strchr(arr[fd], '\n')\
+						- arr[fd]));
+		temp = ft_strsub(ft_strchr(arr[fd], '\n') + 1, 0,\
+						ft_strlen(arr[fd]) - ft_strlen(*line));
+		ft_strdel(&arr[fd]);
+		arr[fd] = ft_strdup(temp);
+		ft_strdel(&temp);
+		return (1);
+	}
+	t();
 	temp = ft_strnew(BUFF_SIZE);
+	t();
 	while (read(fd, temp, BUFF_SIZE))
 	{
-		if (ft_strchr(temp, '\n'))
+		t();
+		arr[fd] = (arr[fd]) ? ft_strjoin(arr[fd], temp) : ft_strdup(temp);
+		if (ft_strchr(arr[fd], '\n'))
 		{
-			*line = ft_strsub(temp, 0, (size_t)(ft_strchr(temp, '\n')\
-						- temp));
-			arr[fd] = ft_strsub(ft_strchr(temp, '\n') + 1, 0, ft_strlen(temp) - ft_strlen(*line));
+			t();
+			*line = ft_strsub(arr[fd], 0, (size_t)(ft_strchr(arr[fd], '\n')\
+						- arr[fd]));
+			temp = ft_strsub(ft_strchr(arr[fd], '\n') + 1, 0,\
+						ft_strlen(arr[fd]) - ft_strlen(*line));
+			ft_strdel(&arr[fd]);
+			arr[fd] = ft_strdup(temp);
 			ft_strdel(&temp);
 			return (1);
 		}
-		arr[fd] = (arr[fd]) ? ft_strjoin(arr[fd], temp) : ft_strdup(temp);
 		ft_strdel(&temp);
+		temp = ft_strnew(BUFF_SIZE);
 	}
 	*line = (arr[fd]) ? arr[fd] : *line;
 	if (arr[fd])
 		ft_strdel(&arr[fd]);
 	return (0);
 }
-
+/*
 #include <stdio.h>
 
 int			main()
@@ -69,4 +83,4 @@ int			main()
 		ft_strdel(&line);
 	}
 	return (0);
-}
+}*/
