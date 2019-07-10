@@ -6,7 +6,7 @@
 /*   By: lnkambul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 16:20:06 by lnkambul          #+#    #+#             */
-/*   Updated: 2019/07/08 16:34:42 by lnkambul         ###   ########.fr       */
+/*   Updated: 2019/07/10 13:50:54 by lnkambul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ if (fd < 0 || !line || read(fd, NULL, 0) == -1)
 			return (1);
 		}
 	}
-	if (i == 0 && arr[fd][0]){
+	if (i == 0 && arr[fd][0])
+	{
 		*line = ft_strdup(arr[fd]);
 		ft_strdel(&arr[fd]);
 		ft_strdel(&temp);
