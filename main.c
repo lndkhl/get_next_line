@@ -12,18 +12,19 @@
 
 #include "get_next_line.h"
 
-int			main(int argc, char **argv)
+int			main()
 {
 	int		fd;
 	char	*line;
 
-	ft_putendl("line:");
-	fd = open(argv[1], O_RDONLY);
-	while (get_next_line(fd, &line) && argc < 3)
+	fd = open("Makefile", O_RDONLY);
+	while (get_next_line(fd, &line))
 	{
-		ft_putendl("line:");
-		ft_putendl(line);
-		ft_strdel(&line);
+        if (line)
+        {
+	        ft_putendl(line);
+            ft_strdel(&line);
+        }
 	}
 	return (0);
 }

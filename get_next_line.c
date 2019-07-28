@@ -37,7 +37,7 @@ if (fd < 0 || !line || read(fd, NULL, 0) == -1)
 	}
 	if (!(temp = ft_strnew(BUFF_SIZE)))
 		return (-1);
-	if ((i = read(fd, temp, BUFF_SIZE)))
+	while ((i = read(fd, temp, BUFF_SIZE)))
 	{
 		if (!(t2 = (arr[fd]) ? ft_strjoin(arr[fd], temp) : ft_strdup(temp)))
 			return (-1);
@@ -68,7 +68,8 @@ if (fd < 0 || !line || read(fd, NULL, 0) == -1)
 			return (1);
 		}
 		ft_strdel(&temp);
-		return (1);
+		if (!(temp = ft_strnew(BUFF_SIZE)))
+		    return (-1);
 	}
 	if (i == 0 && arr[fd][0]){
 		if (!(*line = ft_strdup(arr[fd])))

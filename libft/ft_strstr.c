@@ -15,12 +15,10 @@
 char				*ft_strstr(const char *haystack, const char *needle)
 {
 	unsigned int	i;
-	unsigned int	j;
-	char			*s;
+    char			*s;
 
 	i = 0;
-	j = 0;
-	if (ft_strlen(needle) == 0)
+    if (ft_strlen(needle) == 0)
 		return ((char *)haystack);
 	while (haystack[i])
 	{
