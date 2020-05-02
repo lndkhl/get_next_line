@@ -1,7 +1,7 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    makefile                                           :+:      :+:    :+:    #
+#    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: lnkambul <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
@@ -13,16 +13,18 @@
 FLAGS	= -Wall -Werror -Wextra
 CC	= gcc
 
-NAME	= libft.a
+NAME	= get_next_line
 IDIR	= ./includes/
 BDIR	= ./build/
 SDIR	= ./sources/
+LDIR	= ./libft/
+LBFT	= ./libft/libft.a
 SRCS	= $(shell ls $(SDIR) | grep -E ".+\.c")
 SRCE	= $(addprefix $(SDIR), $(SRCS))
 OBJS	= $(addprefix $(BDIR), $(SRCS:.c=.o))
 
 .DELETE_ON_ERROR:
-all: $(BDIR) $(NAME)
+all: $(BDIR) $(LIBFT) $(NAME)
 
 $(BDIR):
 	@echo "making $(NAME)"
@@ -31,9 +33,11 @@ $(BDIR):
 $(BDIR)%.o: $(SDIR)%.c
 	@$(CC) $(CFLAGS) -I $(IDIR) -o $@ -c $<
 
+$(LBFT):
+	@make -C $(LDIR)
+
 $(NAME): $(OBJS)
-	@ar rc $(NAME) $(OBJS)
-	@ranlib $(NAME)
+	@$(CC) $(FLAGS) $(OBJS) -L $(LDIR) $(LBFT) -o $(NAME)
 	@echo "made $(NAME)"
 
 clean:
